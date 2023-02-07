@@ -5,13 +5,33 @@ Unittest classes:
     TestBaseModel_to_dict
     TestBaseModel_instantiation
 """
+import os
+import models
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+
 
 
 class TestBaseModel_instantiation(unittest.TestCase):
     """Unittest for testing instantiation of the BaseModel class."""
+    
+    @classmethod
+    def setUp(self):
+        """setUp method for TestBaseModel"""
+        _FileStorage__file_path = "testfile.json"
+        print(_FileStorage__file_path)
+
+    @classmethod
+    def tearDown(self):
+        """tearDown method for TestBaseModel"""
+        try:
+            _FileStorage__file_path = "testfile.json"
+            os.remove(_FileStorage__file_path)
+            _FileStorage__file_path = "file.json"
+        except IOError:
+            pass
 
     def test_no_args_instantiates(self):
         bm = BaseModel()
@@ -48,26 +68,39 @@ class TestBaseModel_instantiation(unittest.TestCase):
         tuuid = "123456"
         bm1 = BaseModel()
         bm1.id = tuuid
-        bm1.created_at = datetime.min
-        bm1.updated_at = datetime.min
+        bm1.created_at = datetime(1, 1, 1)
+        bm1.updated_at = datetime(1, 1, 1)
         output = "[BaseModel] (123456)"
         bstr = bm1.__str__()
         self.assertIn(output, bstr)
         self.assertIn("'id': '123456'", bstr)
-        self.assertIn("'created_at': datetime.datetime(1, 1, 1, 0, 0)", bstr)
-        self.assertIn("'updated_at': datetime.datetime(1, 1, 1, 0, 0)", bstr)
+        self.assertIn("'created_at': datetime.datetime(1, 1, 1, 0, 0, 0, 0)", bstr)
+        self.assertIn("'updated_at': datetime.datetime(1, 1, 1, 0, 0, 0, 0)", bstr)
         
      def test_instantiation_with_kwargs(self):
         """instantiation with kwargs test method"""
         bm1 = BaseModel(id="345")
         self.assertEqual(bm1.id, "345")
-        bm1 = BaseModel(updated_at=datetime.min)
-        self.assertEqual(bm1.updated_at, datetime.datetime(1, 1, 1, 0, 0))
-        bm1 = BaseModel(created_at=datetime.min)
-        self.assertEqual(bm1.created_at, datetime.datetime(1, 1, 1, 0, 0))
+        bm1 = BaseModel(updated_at=datetime(1, 1, 1))
+        self.assertEqual(bm1.updated_at, datetime.datetime(1, 1, 1, 0, 0, 0, 0))
+        bm1 = BaseModel(created_at=datetime(1, 1, 1))
+        self.assertEqual(bm1.created_at, datetime.datetime(1, 1, 1, 0, 0, 0, 0))
 
 class TestBaseModel_save(unittest.TestCase):
     """Unittests for testing save method of the BaseModel class."""
+    @classmethod
+    def setUp(self):
+        """setUp method for TestBaseModel"""
+        _FileStorage__file_path = "testfile.json"
+
+    @classmethod
+    def tearDown(self):
+        """tearDown method for TestBaseModel"""
+        try:
+            os.remove(_FileStorage__file_path)
+            _FileStorage__file_path = "file.json"
+        except IOError:
+            pass
 
     def test_one_save(self):
         bm = BaseModel()
@@ -92,6 +125,19 @@ class TestBaseModel_save(unittest.TestCase):
 
 class TestBaseModel_to_dict(unittest.TestCase):
     """Unittests for testing to_dict method of the BaseModel class."""
+    @classmethod
+    def setUp(self):
+        """setUp method for TestBaseModel"""
+        _FileStorage__file_path = "testfile.json"
+
+    @classmethod
+    def tearDown(self):
+        """tearDown method for TestBaseModel"""
+        try:
+            os.remove(_FileStorage__file_path)
+            _FileStorage__file_path = "file.json"
+        except IOError:
+            pass
 
     def test_to_dict_type(self):
         bm = BaseModel()
@@ -121,13 +167,13 @@ class TestBaseModel_to_dict(unittest.TestCase):
         tuuid = "123456"
         bm = BaseModel()
         bm.id = tuuid
-        bm.created_at = datetime.min
-        bm.updated_at = datetime.min
+        bm.created_at = datetime(1, 1, 1)
+        bm.updated_at = datetime(1, 1, 1)
         tdict = {
             'id': '123456',
             '__class__': 'BaseModel',
-            'created_at': datetime.min.isoformat(),
-            'updated_at': datetime.min.isoformat()
+            'created_at': datetime(1, 1, 1).isoformat(),
+            'updated_at': datetime(1, 1, 1).isoformat()
         }
         self.assertDictEqual(bm.to_dict(), tdict)
 

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """AirBnB console defined."""
 import cmd
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
@@ -58,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
         """Display string representation of an instance w/ class and id info"""
         arg_tup = parse(arg)
         classes = ["BaseModel"]
-        objdict = FileStorage()._FileStorage__objects
+        objdict = storage.all()
         if len(arg_tup) == 0:
             print("** class name missing **")
         elif arg_tup[0] not in classes:
@@ -68,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         elif "{}.{}".format(arg_tup[0], arg_tup[1]) not in objdict:
             print("** no instance found **")
         else:
-            print(objdict["{}.{}".format(arg_tup[0], arg_tup[1])].__str__())
+            print(objdict["{}.{}".format(arg_tup[0], arg_tup[1])])
 
     def help_show(self):
         """Displays help information for the show command"""
@@ -76,8 +77,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes instance based on class name and id updating JSON file"""
-        objdict = FileStorage()._FileStorage__objects
+        
         arg_tup = parse(arg)
+        objdict = storage.all()
         classes = ["BaseModel"]
         if len(arg_tup) == 0:
             print("** class name missing **")
@@ -89,33 +91,33 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found**")
         else:
             del objdict["{}.{}".format(arg_tup[0], arg_tup[1])]
-            FileStorage().save()
+            storage.save()
 
     def help_destroy(self):
         """Display info about destroy command"""
         print("Destroys an object based on id and updates the JSON file")
 
     def do_all(self, arg):
-        """all method displays string representations of all instances"""
+        """displays string representations of all instances"""
         arg_tup = parse(arg)
         classes = ["BaseModel"]
         if len(arg_tup) > 0 and arg_tup[0] not in classes:
             print("** class doesn't exist **")
         else:
             objl = []
-            for obj in FileStorage()._FileStorage__objects.values():
+            for obj in storage.all().values():
                 objl.append(obj.__str__())
             print(objl)
 
     def help_all(self):
         """Display help information for the all command"""
-        print("Prints a list of string reprs of all objects instantiated")
+        print("Prints a list of string reprs of all instantiated objects")
 
     def do_update(self, arg):
         """Update instance based on id by adding or updating attribute"""
         arg_tup = parse(arg)
+        objdict = storage.all()
         classes = ["BaseModel"]
-        objdict = FileStorage()._FileStorage__objects
         if len(arg_tup) == 0:
             print("** class name is missing **")
         elif arg_tup[0] not in classes:
@@ -135,6 +137,7 @@ class HBNBCommand(cmd.Cmd):
                 obj.__dict__[arg_tup[2]] = valtype(arg_tup[3])
             else:
                 obj.__dict__[arg_tup[2]] = arg_tup[3]
+        
         
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

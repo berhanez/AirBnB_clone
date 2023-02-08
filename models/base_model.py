@@ -1,14 +1,14 @@
  #!/usr/bin/python3
-"""BaseModel module"""
+"""BaseModel Class"""
 import models
 from uuid import uuid4
 from datetime import datetime
 
 
 class BaseModel:
-    """BaseModel- class"""
+    """BaseModel of AirBnB"""
     def __init__(self, *args, **kwargs):
-        """initialization __init__ magic method"""
+        """initialization of the new BaseModel."""
         tform = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.today()
@@ -23,12 +23,12 @@ class BaseModel:
             models.storage.new(self)
 
     def save(self):
-        """the save method"""
+        """Current date time implementation"""
         self.updated_at = datetime.today()
         models.storage.save()
 
     def to_dict(self):
-        """to_dict method"""
+        """Return dict of BaseModel Instance"""
         rdict = self.__dict__.copy()
         rdict["created_at"] = self.created_at.isoformat()
         rdict["updated_at"] = self.updated_at.isoformat()
@@ -36,6 +36,6 @@ class BaseModel:
         return rdict
 
     def __str__(self):
-        """__str__ magic method"""
+        """print str representation of BaseModel Instance"""
         clname = self.__class__.__name__
         return "[{}] ({}) {}".format(clname, self.id, self.__dict__)1

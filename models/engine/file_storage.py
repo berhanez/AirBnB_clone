@@ -1,40 +1,42 @@
 #!/usr/bin/python3
-"""FileStorage module"""
+"""FileStorage class"""
 import json
 from models.base_model import BaseModel
 
 
 class FileStorage:
-"""FileStorage Class"""
+"""FileStorage Class methods of storage defined.
+   Attr's:
+        __file_path (str): The name of the file to save objects to.
+        __objects (dict): A dictionary of instantiated objects."""
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """all method"""
-        return FileStorage.__objects
+        """Dictionary objects"""
+        return self.__objects
 
     def new(self, obj):
-        """new method"""
+        """set with obj.id"""
         odict = FileStorage.__objects
         ocname = obj.__class__.__name__
         odict["{}.{}".format(ocname, obj.id)] = obj
 
     def save(self):
-        """save method"""
+        """Obj's serialized to JSON file __file_path"""
    	objdict = {}
         for i, o in FileStorage.__objects.items():
             objdict[i] = o.to_dict()
-        with open(FileStorage.__file_path, "w+") as f:
+        with open(FileStorage.__file_path, "w") as f:
             json.dump(objdict, f)
    
     def reload(self):
-        """reload method"""
+        """Deserialize"""
         try:
-            objl = []
             with open(FileStorage.__file_path) as f:
+                FileStorage.__objects = {}
                 objdict = json.load(f)
                 for i, o in objdict.items():
-                    objdict[i] = BaseModel(**o)
-            FileStorage.__objects = objdict
+                    self.new(BaseModel(**o))                   
         except FileNotFoundError:
             return

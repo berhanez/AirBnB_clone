@@ -5,7 +5,7 @@ from models.base_model import BaseModel
 
 
 class FileStorage:
-"""FileStorage Class methods of storage defined.
+"""FileStorage Class methods of storage engine defined.
    Attr's:
         __file_path (str): The name of the file to save objects to.
         __objects (dict): A dictionary of instantiated objects."""
@@ -24,9 +24,8 @@ class FileStorage:
 
     def save(self):
         """Obj's serialized to JSON file __file_path"""
-   	objdict = {}
-        for i, o in FileStorage.__objects.items():
-            objdict[i] = o.to_dict()
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objdict, f)
    
@@ -35,7 +34,6 @@ class FileStorage:
         try:
             with open(FileStorage.__file_path) as f:
                 objdict = json.load(f)
-                for i, o in objdict.items():
-                    self.new(BaseModel(**o))                   
+                [self.new(BaseModel(**obj)) for obj in objdict.values()]                  
         except FileNotFoundError:
             return

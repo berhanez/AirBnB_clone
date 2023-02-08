@@ -1,22 +1,50 @@
 #!/usr/bin/python3
-"""Defines unittests for models/file_storage.py."""
+"""Defines unittests for models/file_storage.py.
+Unittest classes:
+    TestFileStorage_instantiation
+    TestFileStorage_methods
+"""
 import unittest
 from datetime import datetime
 from models.base_model import BaseModel
-from models.file_storage import FileStorage
-from models import storage
-
+from models.engine.file_storage import FileStorage
+import models
 
 class TestFileStorage_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the FileStorage class."""
+    """Unittest for testin FileStorage class."""
+    def setUp(self):
+        """setUp method for TestBaseModel"""
+        _FileStorage__file_path = "testfile.json"
+
+    @classmethod
+    def tearDown(self):
+        """tearDown method for TestBaseModel"""
+        try:
+            _FileStorage__file_path = "testfile.json"
+            os.remove(_FileStorage__file_path)
+            _FileStorage__file_path = "file.json"
+        except IOError:
+            pass
 
     def test_storage_class(self):
         """test_storage_class method"""
-        self.assertEqual(type(storage), FileStorage)
+        self.assertEqual(type(models.storage), FileStorage)
 
-
-class TestFileStorage_all_method(unittest.TestCase):
+class TestFileStorage_methods(unittest.TestCase):
     """Unittests for testing all method of the FileStorage class."""
+    def setUp(self):
+        """setUp method for TestBaseModel"""
+        _FileStorage__file_path = "testfile.json"
+
+    @classmethod
+    def tearDown(self):
+        """tearDown method for TestBaseModel"""
+        try:
+            _FileStorage__file_path = "testfile.json"
+            os.remove(_FileStorage__file_path)
+            _FileStorage__file_path = "file.json"
+        except IOError:
+            pass
     def test_storage_all(self):
         """test_storage_all method"""
         self.assertEqual(type(storage.all()), dict)

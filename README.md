@@ -1,10 +1,12 @@
 # AirBnB_clone
+
 <p align="center">
  <img src="https://github.com/berhanez/AirBnB_clone/blob/main/Misc/Airbnb.png">
 </p>
 <h1 align="center">AirBnB_clone</h1>
-## Overview of Project
 
+
+## Overview of Project
 ### First Piece
 * The Console: where we will create objects and dive into File Serialization
 * Creating a storage engine: The file storage

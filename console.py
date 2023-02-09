@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """AirBnB console defined."""
 import cmd
+from shlex import split
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -11,7 +12,8 @@ from models.amenity import Amenity
 from models.review import Review
 
 def parse(arg):
-    return tuple(arg.split())
+    argl = split(arg)
+    return [i.strip(",") for i in argl]
 
 class HBNBCommand(cmd.Cmd):
     """ Define AirBnB cmd interpreter.

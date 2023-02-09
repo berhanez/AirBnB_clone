@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """AirBnB console defined."""
 import cmd
-from models import storage
+import models
+from models.user import User
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
@@ -10,7 +11,7 @@ def parse(arg):
     return tuple(arg.split())
 
 class HBNBCommand(cmd.Cmd):
-    """Define AirBnB cmd interpreter.
+    """ Define AirBnB cmd interpreter.
     Attr's:
         prompt (str): The command prompt.
     """
@@ -18,13 +19,13 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def emptyline(self):
-        """Do nothing upon receiving an empty line."""
+        """ Do nothing upon receiving an empty line."""
         pass
 
     def do_create(self, arg):
-        """Create a new BaseModel, print its id, and save it to file.json"""
+        """ Create a new BaseModel, print its id, and save it to file.json"""
         arg_tup = parse(arg)
-        classes = ["BaseModel"]
+        classes = ["BaseModel", "User"]
         if len(arg_tup) == 0:
             print("** class name missing **")
         elif arg_tup[0] not in classes:
@@ -32,7 +33,10 @@ class HBNBCommand(cmd.Cmd):
         elif arg_tup[0] == classes[0]:
             print(BaseModel().id)
             FileStorage().save()
-
+        elif arg_tup[0] == classes[1]:
+            print(BaseModel().id)
+            FileStorage().save()
+            
     def help_create(self):
         """show information about the create command."""
         print("Usage: create <class>")
@@ -58,8 +62,8 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, arg):
         """Display string representation of an instance w/ class and id info"""
         arg_tup = parse(arg)
-        classes = ["BaseModel"]
-        objdict = storage.all()
+        classes = ["BaseModel", "User"]
+        objdict = FileStorage()._FileStorage__objects
         if len(arg_tup) == 0:
             print("** class name missing **")
         elif arg_tup[0] not in classes:
@@ -79,8 +83,7 @@ class HBNBCommand(cmd.Cmd):
         """Deletes instance based on class name and id updating JSON file"""
         
         arg_tup = parse(arg)
-        objdict = storage.all()
-        classes = ["BaseModel"]
+        classes = ["BaseModel", "User"]
         if len(arg_tup) == 0:
             print("** class name missing **")
         elif arg_tup[0] not in classes:
@@ -100,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """displays string representations of all instances"""
         arg_tup = parse(arg)
-        classes = ["BaseModel"]
+        classes = ["BaseModel", "User"]
         if len(arg_tup) > 0 and arg_tup[0] not in classes:
             print("** class doesn't exist **")
         else:
@@ -116,8 +119,9 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update instance based on id by adding or updating attribute"""
         arg_tup = parse(arg)
-        objdict = storage.all()
-        classes = ["BaseModel"]
+        classes = ["BaseModel", "User"]
+        objdict = FileStorage()._FileStorage__objects
+        
         if len(arg_tup) == 0:
             print("** class name is missing **")
         elif arg_tup[0] not in classes:

@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """AirBnB console defined."""
 import cmd
-from shlex import split
+import re
+from shlex import shlex
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -12,8 +13,9 @@ from models.amenity import Amenity
 from models.review import Review
 
 def parse(arg):
-    argl = split(arg)
-    return [i.strip(",") for i in argl]
+    lexer = shlex(arg)
+    retl = [i.strip(",") for i in lexer]
+    return retl
 
 class HBNBCommand(cmd.Cmd):
     """ Define AirBnB cmd interpreter.
@@ -152,16 +154,23 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
         elif len(argl) == 2:
             print("** attribute name missing **")
-        elif len(argl) == 3:
+        elif len(argl) == 3 and type(eval(arg[2])) != dict::
             print("** value missing **")
-        else:
+        elif len(argl) == 4:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
             if argl[2] in obj.__dict__.keys():
                 valtype = type(obj.__dict__[argl[2]])
                 obj.__dict__[argl[2]] = valtype(argl[3])
             else:
                 obj.__dict__[argl[2]] = argl[3]
-        
+        elif type(eval(arg[2])) == dict:
+            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            for k, v in eval(arg[2]).items():
+                if k in obj.__dict__.keys():
+                    valtype = type(obj.__dict__[k])
+                    obj.__dict__[k] = valtype(v)
+                else:
+                    obj.__dict__[k] = v
         
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

@@ -89,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
             
     def do_show(self, arg):
         """Display string representation of an instance w/ class and id info
-        Usage:show <class> <id>"""
+        Usage:show <class> <id> || <class>.show(<id>)"""
         argl = parse(arg)
         objdict = storage.all()
         
@@ -106,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, arg):
         """Deletes instance based on class name and id updating JSON file
-        Usage: destroy <class> <id>"""
+        Usage: destroy <class> <id> || <class>.destroy(<id>)"""
         argl = parse(arg)
         objdict = storage.all()
         
@@ -124,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """displays string representations of all instances
-        Usage: all <class>"""
+        Usage:  all or all <class> || <class>.all()"""
         argl = parse(arg)
         if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
@@ -139,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
             
     def do_count(self, arg):
         """Retrieve the number of instances of a given class.
-        Usage: count <class>"""
+        Usage: count <class> || <class>.count()"""
         argl = parse(arg)
         count = 0
         for obj in storage.all().values():
@@ -149,7 +149,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Update instance based on id by adding or updating attribute.
-        Usage: update <class> <id> <attribute_name> <attribute_value>"""
+        Usage: update <class> <id> <attribute_name> <attribute_value> || 
+        <class>.update(<id>, <attribute_name>, <attribute_value>) or
+        <class>.update(<id>, <dictionary>)"""
         argl = parse(arg)
         objdict = storage.all()
         

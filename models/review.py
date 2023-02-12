@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Review class defined."""
-import models
 from models.base_model import BaseModel
 
 

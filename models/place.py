@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Place class defined."""
-import models
 from models.base_model import BaseModel
 
 

@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ State class Defined."""
-import models
 from models.base_model import BaseModel
 
 

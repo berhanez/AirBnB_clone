@@ -5,7 +5,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """Represents the User of the HBnB project."""
+    """Represents the User of the platform"""
     
     email = ""
     password = ""

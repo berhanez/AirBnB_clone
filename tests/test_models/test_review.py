@@ -43,18 +43,18 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertIn("text", dir(rv))
         self.assertNotIn("text", rv.__dict__)
 
-    def test_two_cities_unique_ids(self):
+    def test_two_reviews_unique_ids(self):
         rv1 = Review()
         rv2 = Review()
         self.assertNotEqual(rv1.id, rv2.id)
 
-    def test_two_cities_different_created_at(self):
+    def test_two_reviews_different_created_at(self):
         rv1 = Review()
         sleep(0.05)
         rv2 = Review()
         self.assertLess(rv1.created_at, rv2.created_at)
 
-    def test_two_cities_different_updated_at(self):
+    def test_two_reviews_different_updated_at(self):
         rv1 = Review()
         sleep(0.05)
         rv2 = Review()
@@ -71,6 +71,10 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertIn("'id': '123456'", rvstr)
         self.assertIn("'created_at': " + dt_repr, rvstr)
         self.assertIn("'updated_at': " + dt_repr, rvstr)
+    
+    def test_args_unused(self):
+        rv = Review(None)
+        self.assertNotIn(None, rv.__dict__.values())
 
     def test_instantiation_with_kwargs(self):
         """instantiation with kwargs test method"""
@@ -81,6 +85,9 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertEqual(rv.created_at, dt)
         self.assertEqual(rv.updated_at, dt)
 
+    def test_instantiation_with_None_kwargs(self):
+        with self.assertRaises(TypeError):
+            Review(id=None, created_at=None, updated_at=None)
 
 class TestReview_save(unittest.TestCase):
     """Unittests for testing save method of the Review class."""
@@ -123,7 +130,7 @@ class TestReview_save(unittest.TestCase):
     def test_save_with_arg(self):
         rv = Review()
         with self.assertRaises(TypeError):
-            rv.save(1)
+            rv.save(None)
 
     def test_save_updates_file(self):
         rv = Review()
@@ -180,7 +187,7 @@ class TestReview_to_dict(unittest.TestCase):
     def test_to_dict_with_arg(self):
         rv = Review()
         with self.assertRaises(TypeError):
-            rv.to_dict(1)
+            rv.to_dict(None)
 
 
 if __name__ == "__main__":

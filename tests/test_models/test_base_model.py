@@ -61,8 +61,8 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertIn("'updated_at': " + dt_repr, bmstr)
     
     def test_args_unused(self):
-        bm = BaseModel("123456")
-        self.assertNotIn("123456", bm.__dict__.values())
+        bm = BaseModel(None)
+        self.assertNotIn(None, bm.__dict__.values())
 
         
     def test_instantiation_with_kwargs(self):
@@ -73,6 +73,10 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertEqual(bm.id, "345")
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
+    
+    def test_instantiation_with_None_kwargs(self):
+        with self.assertRaises(TypeError):
+            BaseModel(id=None, created_at=None, updated_at=None)
 
 class TestBaseModel_save(unittest.TestCase):
     """Unittests for testing save method of the BaseModel class."""
@@ -116,7 +120,7 @@ class TestBaseModel_save(unittest.TestCase):
     def test_save_with_arg(self):
         bm = BaseModel()
         with self.assertRaises(TypeError):
-            bm.save(1)
+            bm.save(None)
     
     def test_save_updates_file(self):
         bm = BaseModel()
@@ -172,7 +176,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
     def test_to_dict_with_arg(self):
         bm = BaseModel()
         with self.assertRaises(TypeError):
-            bm.to_dict(1)
+            bm.to_dict(None)
 
 
 if __name__ == "__main__":

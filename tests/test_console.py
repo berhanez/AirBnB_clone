@@ -7,8 +7,8 @@ from io import StringIO
 from unittest.mock import patch
 
 
-class TestHBNBCommand(unittest.TestCase):
-    """Unittests for testing the HBNB command interpreter."""
+class TestHBNBCommand_help(unittest.TestCase):
+    """Unittests for testing the HBNB command interpreter help messages."""
 
    
     def test_quit_exits(self):
@@ -32,3 +32,24 @@ class TestHBNBCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help EOF"))
             self.assertEqual(correct, output.getvalue().strip())
+    
+     def test_help_show(self):
+        correct = "Usage: show <class> <id>\n        Display the string "
+        correct += "representation of a class instance of a given id."
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("help show"))
+            self.assertEqual(correct, output.getvalue().strip())
+
+    def test_help_show(self):
+        correct = "Usage: destroy <class> <id>\n        "
+        correct += "Delete a class instance of a given id."
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("help destroy"))
+            self.assertEqual(correct, output.getvalue().strip())
+
+
+class TestHBNBCommand_exit(unittest.TestCase):
+    """Unittests for testing exiting from the HBNB command interpreter."""
+
+    def test_quit_exits(self):
+        self.assertTrue(HBNBCommand().onecmd("quit"))

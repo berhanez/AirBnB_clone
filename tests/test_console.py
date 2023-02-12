@@ -2,6 +2,7 @@
 """unittests for console.py defined."""
 import sys
 import unittest
+from models import storage
 from console import HBNBCommand
 from io import StringIO
 from unittest.mock import patch
@@ -17,6 +18,7 @@ class TestHBNBCommand_prompting(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
+
 
 class TestHBNBCommand_help(unittest.TestCase):
     """Unittests for testing the HBNB command interpreter help messages."""
@@ -104,25 +106,49 @@ class TestHBNBCommand_exit(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class TestHBNBCommand_create(unittest.TestCase):
     """Unittests for testing create from the HBNB command interpreter."""
 
     def test_create_missing_class(self):
         correct = "** class name missing **"
-        with patch("sys.stdout", new = StringIO()) as output:
+        with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create"))
             self.assertEqual(correct, output.getvalue().strip())
 
     def test_create_invalid_class(self):
         correct1 = "** class doesn't exist **"
         correct = "*** Unknown syntax: MyModel.create()"
-        with patch("sys.stdout", new = StringIO()) as output:
+        with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create MyModel"))
             self.assertEqual(correct1, output.getvalue().strip())
-        with patch("sys.stdout", new = StringIO()) as output:
+        with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("MyModel.create()"))
+            self.assertEqual(correct, output.getvalue().strip())
+
+
+def test_create_object(self):
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("create User"))
+            self.assertEqual(str, type(output.getvalue().strip()))
+            self.assertLess(0, len(output.getvalue().strip()))
+            testKey = "User.{}".format(output.getvalue().strip())
+            self.assertIn(testKey, storage.all().keys())
+
+class TestHBNBCommand_show(unittest.TestCase):
+    """Unittests for testing show from the HBNB command interpreter"""
+    def test_show_missing_class(self):
+        correct = "** class name missing **"
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("show"))
+            self.assertEqual(correct, output.getvalue().strip())
+
+    def test_show_invalid_class(self):
+        correct1 = "** class doesn't exist **"
+        correct = "** class doesn't exist **"
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("show MyModel"))
+            self.assertEqual(correct1, output.getvalue().strip())
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("MyModel.show()"))
             self.assertEqual(correct, output.getvalue().strip())

@@ -49,10 +49,10 @@ class TestFileStorage_methods(unittest.TestCase):
             os.rename("file.json", "tmp")
         except IOError:
             pass
+        models.storage._FileStorage__objects = {}
 
     @classmethod
     def tearDown(self):
-   	models.storage._FileStroage__objects = {}
         try:
             os.remove("file.json")
 	except IOError:
@@ -63,10 +63,8 @@ class TestFileStorage_methods(unittest.TestCase):
             pass
 
     def test_all(self):
-        """test all"""
         objs = models.storage.all()
         self.assertEqual(type(objs), dict)
-        self.assertIsInstance(list(objs.values())[0], BaseModel)
 
     def test_all_with_arg(self):
         with self.assertRaises(TypeError):

@@ -28,16 +28,12 @@ class TestFileStorage_instantiation(unittest.TestCase):
         with self.assertRaises(TypeError):
             FileStorage(None)
 
-    def test_FileStorage_file_path_is_private_attribute(self):
-        with self.assertRaises(AttributeError):
-            fs = FileStorage()
-            print(fs.__file_name)
-            
-    def testFileStorage_objects_is_private_attribute(self):
-        with self.assertRaises(AttributeError):
-            fs = FileStorage()
-            print(fs.__objects)
-
+    def test_FileStorage_file_path_is_private_str(self):
+        self.assertEqual(str, type(FileStorage._FileStorage__file_path))
+        
+    def testFileStorage_objects_is_private_dict(self):
+        self.assertEqual(dict, type(FileStorage._FileStorage__objects))
+        
     def test_storage_initializes(self):
         self.assertEqual(type(models.storage), FileStorage)
 
@@ -63,8 +59,7 @@ class TestFileStorage_methods(unittest.TestCase):
         models.storage._FileStorage__objects = {}
 
     def test_all(self):
-        objs = models.storage.all()
-        self.assertEqual(type(objs), dict)
+        self.assertEqual(dict, type(models.storage.all()))
 
     def test_all_with_arg(self):
         with self.assertRaises(TypeError):

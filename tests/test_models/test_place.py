@@ -120,7 +120,7 @@ class TestPlace_instantiation(unittest.TestCase):
         self.assertIn("'id': '123456'", plstr)
         self.assertIn("'created_at': " + dt_repr, plstr)
         self.assertIn("'updated_at': " + dt_repr, plstr)
-    
+
     def test_args_unused(self):
         pl = Place(None)
         self.assertNotIn(None, pl.__dict__.values())
@@ -137,6 +137,8 @@ class TestPlace_instantiation(unittest.TestCase):
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             Place(id=None, created_at=None, updated_at=None)
+
+
 class TestPlace_save(unittest.TestCase):
     """Unittests for testing save method of the Place class."""
 

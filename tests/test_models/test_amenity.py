@@ -65,7 +65,7 @@ class TestAmenity_instantiation(unittest.TestCase):
         self.assertIn("'id': '123456'", amstr)
         self.assertIn("'created_at': " + dt_repr, amstr)
         self.assertIn("'updated_at': " + dt_repr, amstr)
-    
+
     def test_args_unused(self):
         am = Amenity(None)
         self.assertNotIn(None, am.__dict__.values())
@@ -78,14 +78,14 @@ class TestAmenity_instantiation(unittest.TestCase):
         self.assertEqual(am.id, "345")
         self.assertEqual(am.created_at, dt)
         self.assertEqual(am.updated_at, dt)
-    
+
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             Amenity(id=None, created_at=None, updated_at=None)
 
+
 class TestAmenity_save(unittest.TestCase):
     """Unittests for testing save method of the Amenity class."""
-
     @classmethod
     def setUp(self):
         try:

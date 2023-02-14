@@ -131,13 +131,14 @@ class TestUser_save(unittest.TestCase):
         us = User()
         with self.assertRaises(TypeError):
             us.save(None)
-            
+
     def test_save_updates_file(self):
         us = User()
         us.save()
         usid = "User." + us.id
         with open("file.json", "r") as f:
             self.assertIn(usid, f.read())
+
 
 class TestUser_to_dict(unittest.TestCase):
     """Unittests for testing to_dict method of the User class."""
@@ -188,6 +189,6 @@ class TestUser_to_dict(unittest.TestCase):
         with self.assertRaises(TypeError):
             us.to_dict(None)
 
+
 if __name__ == "__main__":
     unittest.main()
-    

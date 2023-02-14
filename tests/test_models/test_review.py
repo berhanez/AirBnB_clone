@@ -72,7 +72,7 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertIn("'id': '123456'", rvstr)
         self.assertIn("'created_at': " + dt_repr, rvstr)
         self.assertIn("'updated_at': " + dt_repr, rvstr)
-    
+
     def test_args_unused(self):
         rv = Review(None)
         self.assertNotIn(None, rv.__dict__.values())
@@ -89,6 +89,7 @@ class TestReview_instantiation(unittest.TestCase):
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             Review(id=None, created_at=None, updated_at=None)
+
 
 class TestReview_save(unittest.TestCase):
     """Unittests for testing save method of the Review class."""

@@ -70,7 +70,7 @@ class TestCity_instantiation(unittest.TestCase):
     def test_args_unused(self):
         cy = City(None)
         self.assertNotIn(None, cy.__dict__.values())
-        
+
     def test_instantiation_with_kwargs(self):
         """instantiation with kwargs test method"""
         dt = datetime.today()
@@ -79,7 +79,7 @@ class TestCity_instantiation(unittest.TestCase):
         self.assertEqual(cy.id, "345")
         self.assertEqual(cy.created_at, dt)
         self.assertEqual(cy.updated_at, dt)
-    
+
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             City(id=None, created_at=None, updated_at=None)

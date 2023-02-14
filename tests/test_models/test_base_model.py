@@ -15,10 +15,10 @@ from models.base_model import BaseModel
 
 class TestBaseModel_instantiation(unittest.TestCase):
     """Unittest for testing instantiation of the BaseModel class."""
-    
+
     def test_no_args_instantiates(self):
         self.assertEqual(BaseModel, type(BaseModel()))
-        
+
     def test_new_instance_stored_in_objects(self):
         self.assertIn(BaseModel(), models.storage.all().values())
 
@@ -47,7 +47,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         sleep(0.05)
         bm2 = BaseModel()
         self.assertLess(bm1.updated_at, bm2.updated_at)
-    
+
     def test_str_representation(self):
         dt = datetime.today()
         dt_repr = repr(dt)
@@ -59,12 +59,11 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertIn("'id': '123456'", bmstr)
         self.assertIn("'created_at': " + dt_repr, bmstr)
         self.assertIn("'updated_at': " + dt_repr, bmstr)
-    
+
     def test_args_unused(self):
         bm = BaseModel(None)
         self.assertNotIn(None, bm.__dict__.values())
 
-        
     def test_instantiation_with_kwargs(self):
         """instantiation with kwargs test method"""
         dt = datetime.today()
@@ -73,7 +72,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertEqual(bm.id, "345")
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
-    
+
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             BaseModel(id=None, created_at=None, updated_at=None)
@@ -89,7 +88,6 @@ class TestBaseModel_instantiation(unittest.TestCase):
 
 class TestBaseModel_save(unittest.TestCase):
     """Unittests for testing save method of the BaseModel class."""
-    
     @classmethod
     def setUp(self):
         try:
@@ -107,7 +105,7 @@ class TestBaseModel_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
-        
+
     def test_one_save(self):
         bm = BaseModel()
         sleep(0.05)
@@ -130,7 +128,7 @@ class TestBaseModel_save(unittest.TestCase):
         bm = BaseModel()
         with self.assertRaises(TypeError):
             bm.save(None)
-    
+
     def test_save_updates_file(self):
         bm = BaseModel()
         bm.save()
@@ -138,9 +136,9 @@ class TestBaseModel_save(unittest.TestCase):
         with open("file.json", "r") as f:
             self.assertIn(bmid, f.read())
 
+
 class TestBaseModel_to_dict(unittest.TestCase):
     """Unittests for testing to_dict method of the BaseModel class."""
-    
     def test_to_dict_type(self):
         bm = BaseModel()
         self.assertTrue(dict, type(bm.to_dict()))
@@ -181,7 +179,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
     def test_contrast_to_dict_dunder_dict(self):
         bm = BaseModel()
         self.assertNotEqual(bm.to_dict(), bm.__dict__)
-        
+
     def test_to_dict_with_arg(self):
         bm = BaseModel()
         with self.assertRaises(TypeError):
@@ -190,4 +188,3 @@ class TestBaseModel_to_dict(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

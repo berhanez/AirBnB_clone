@@ -64,7 +64,7 @@ class TestState_instantiation(unittest.TestCase):
     def test_args_unused(self):
         st = State(None)
         self.assertNotIn(None, st.__dict__.values())
-        
+
     def test_instantiation_with_kwargs(self):
         """instantiation with kwargs test method"""
         dt = datetime.today()
@@ -77,7 +77,8 @@ class TestState_instantiation(unittest.TestCase):
     def test_instantiation_with_None_kwargs(self):
         with self.assertRaises(TypeError):
             State(id=None, created_at=None, updated_at=None)
-            
+
+
 class TestState_save(unittest.TestCase):
     """Unittests for testing save method of the State class."""
 

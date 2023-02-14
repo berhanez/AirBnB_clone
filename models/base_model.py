@@ -38,4 +38,4 @@ class BaseModel:
     def __str__(self):
         """print str representation of BaseModel Instance"""
         clname = self.__class__.__name__
-        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)1
+        return "[{}] ({}) {}".format(clname, self.id, self.__dict__)

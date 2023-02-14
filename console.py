@@ -12,6 +12,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
+
 def parse(arg):
     curly_braces = re.search(r"\{(.*?)\}", arg)
     brackets = re.search(r"\[(.*?)\]", arg)
@@ -28,6 +29,7 @@ def parse(arg):
         retl = [i.strip(",") for i in lexer]
         retl.append(curly_braces.group())
         return retl
+
 
 class HBNBCommand(cmd.Cmd):
     """ Define AirBnB cmd interpreter.
@@ -49,7 +51,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """ Does nothing upon receiving an empty line."""
         pass
-        
+
     def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
         argdict = {
@@ -75,12 +77,11 @@ class HBNBCommand(cmd.Cmd):
         """Return upon receiving quit command."""
         return True
 
-
     def do_EOF(self, arg):
         """Return upon receiving an EOF signal(exit)."""
         print("")
         return True
-    
+
     def do_create(self, arg):
         """Create a new class instance and prints its id.
         Usage: create <class>"""
@@ -92,13 +93,13 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(eval(argl[0])().id)
             storage.save()
-            
+
     def do_show(self, arg):
         """Display string representation of an instance w/ class and id info
         Usage:show <class> <id> || <class>.show(<id>)"""
         argl = parse(arg)
         objdict = storage.all()
-        
+
         if len(argl) == 0:
             print("** class name missing **")
         elif argl[0] not in HBNBCommand.__classes:
@@ -115,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
         Usage: destroy <class> <id> || <class>.destroy(<id>)"""
         argl = parse(arg)
         objdict = storage.all()
-        
+
         if len(argl) == 0:
             print("** class name missing **")
         elif argl[0] not in HBNBCommand.__classes:
@@ -142,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
                 elif len(argl) == 0:
                     objl.append(obj.__str__())
             print(objl)
-            
+
     def do_count(self, arg):
         """Retrieve the number of instances of a given class.
         Usage: count <class> || <class>.count()"""
@@ -155,12 +156,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """Update instance based on id by adding or updating attribute.
-        Usage: update <class> <id> <attribute_name> <attribute_value> || 
+        Usage: update <class> <id> <attribute_name> <attribute_value> ||
         <class>.update(<id>, <attribute_name>, <attribute_value>) or
         <class>.update(<id>, <dictionary>)"""
         argl = parse(arg)
         objdict = storage.all()
-        
+
         if len(argl) == 0:
             print("** class name missing **")
             return False
